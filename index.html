@@ -21,6 +21,10 @@ body{font-family:var(--f-mono);font-size:13px;line-height:1.5}
 #brand{top:calc(env(safe-area-inset-top,0px) + 12px);left:16px;font-family:var(--f-display);font-weight:400;font-size:26px;letter-spacing:.06em;color:var(--sodium);text-shadow:0 1px 0 #000}
 #brand small{display:block;font-family:var(--f-mono);font-weight:400;font-size:11px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
 #aboutBtn{top:calc(env(safe-area-inset-top,0px) + 12px);right:16px}
+#music{top:calc(env(safe-area-inset-top,0px) + 54px);right:16px;width:min(340px,calc(100vw - 32px));background:rgba(14,11,10,.92);border:1px solid rgba(255,174,66,.35);padding:10px;display:grid;gap:8px}
+#music iframe{width:100%;height:152px;border:0;border-radius:12px;display:block}
+#music .btn{text-decoration:none;text-align:center}
+#music p{margin:0;color:var(--muted);font-size:12px}
 #panel{left:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);max-width:min(360px,calc(100vw - 32px));background:rgba(14,11,10,.78);border:1px solid rgba(255,174,66,.35);padding:10px 12px;display:grid;gap:8px;backdrop-filter:blur(4px)}
 #where{font-family:var(--f-display);font-weight:400;font-size:30px;line-height:1;letter-spacing:.03em;font-variant-numeric:tabular-nums}
 #where span{color:var(--sodium)}
@@ -64,7 +68,8 @@ input[type=range]{accent-color:var(--sodium);width:120px}
 <div id="track" aria-hidden="true"></div>
 
 <div id="brand" class="hud">LEAKE ST<small>Fisheye walk · SE1</small></div>
-<div id="aboutBtn" class="hud"><button class="ghost" id="aboutOpen" aria-expanded="false" aria-controls="about">About</button></div>
+<div id="aboutBtn" class="hud row"><button id="musicBtn" aria-expanded="false" aria-controls="music">Music</button><button class="ghost" id="aboutOpen" aria-expanded="false" aria-controls="about">About</button></div>
+<div id="music" class="hud" hidden role="region" aria-label="Music"><div id="musicEmbed"></div><a id="musicLink" class="btn" href="https://open.spotify.com/playlist/4hEXmJKw2S9qlQsZvVJszM" target="_blank" rel="noopener">Open the playlist in Spotify</a><p id="musicNote"></p></div>
 
 <div id="panel" class="hud" role="region" aria-label="Walk controls">
   <div id="where"><span id="metres">0</span> m <small style="font-size:14px;color:var(--muted)">of 300</small> <small id="archLabel" style="font-size:18px;color:var(--teal)"></small></div>
@@ -543,6 +548,20 @@ $('headBtn').onclick = () => { if (state.source === 'head'){ state.source = 'mou
 $('recenter').onclick = () => { if (head){ head.base = null; head.samples = []; setMode('Recentering. Look straight at the screen.'); } };
 $('flip').onclick = () => { if (head){ head.flip = !head.flip; $('flip').setAttribute('aria-pressed', String(head.flip)); } };
 $('fov').oninput = e => { const v = +e.target.value; $('fovOut').textContent = v + '°'; lensMat.uniforms.uHalfFov.value = v / 2 * Math.PI / 180; };
+const PLAYLIST = '4hEXmJKw2S9qlQsZvVJszM';
+const inArtifact = !!(window.claude && window.claude.use);
+$('musicBtn').onclick = () => {
+  const box = $('music'), open = box.hidden; box.hidden = !open; $('musicBtn').setAttribute('aria-expanded', String(open));
+  if (open && !inArtifact && !$('musicEmbed').firstChild){
+    const f = document.createElement('iframe');
+    f.src = 'https://open.spotify.com/embed/playlist/' + PLAYLIST + '?utm_source=generator&theme=0';
+    f.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture'; f.loading = 'lazy'; f.title = 'Spotify playlist';
+    $('musicEmbed').appendChild(f); $('musicLink').hidden = true;
+    $('musicNote').textContent = 'Press play, close this box and keep walking. Without a Spotify login you hear 30-second previews.';
+  } else if (open && inArtifact){
+    $('musicNote').textContent = 'This view blocks the Spotify player, so the playlist opens in Spotify. The GitHub Pages version plays right here.';
+  }
+};
 $('aboutOpen').onclick = () => { $('about').hidden = false; $('aboutOpen').setAttribute('aria-expanded', 'true'); $('aboutClose').focus(); };
 $('aboutClose').onclick = () => { $('about').hidden = true; $('aboutOpen').setAttribute('aria-expanded', 'false'); $('aboutOpen').focus(); };
 function closeIntro(){ $('intro').hidden = true; nextTrain = performance.now() + 25000 + Math.random() * 20000; }
