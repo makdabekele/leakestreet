@@ -1,13 +1,14 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body><title>Leake Street Fisheye</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@700;900&family=IBM+Plex+Mono:wght@400;600&family=Permanent+Marker&family=Rubik+Spray+Paint&family=Rubik+Wet+Paint&family=Sedgwick+Ave+Display&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bungee&family=Didact+Gothic&family=Sedgwick+Ave+Display&display=swap">
 <style>
 /* Layout: one fixed WebGL lens filling the screen; the page scroll is the walk (40px = 1 m); HUD hugs the corners. Single dark look by design. */
 :root{
   --ink:#0e0b0a; --soot:#1c1613; --sodium:#ffae42; --paint:#ff3d8b; --teal:#18c3b5; --chalk:#efe8dc; --muted:#a89a8c;
-  --f-display:"Big Shoulders Stencil Display","Arial Narrow",Impact,sans-serif;
-  --f-spray:"Rubik Spray Paint","Rubik Wet Paint",Impact,sans-serif;
-  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --f-display:"Bebas Neue","Arial Narrow",Impact,sans-serif;
+  --f-spray:"Sedgwick Ave Display","Bungee",Impact,sans-serif;
+  --f-chunk:"Bungee",Impact,sans-serif;
+  --f-mono:"Century Gothic","Didact Gothic","Avenir Next",sans-serif;
   color-scheme:dark;
 }
 html,body{background:var(--ink);color:var(--chalk);margin:0}
@@ -17,11 +18,11 @@ body{font-family:var(--f-mono);font-size:13px;line-height:1.5}
 #track{height:12000px}
 .hud{position:fixed;z-index:5;pointer-events:none}
 .hud>*{pointer-events:auto}
-#brand{top:calc(env(safe-area-inset-top,0px) + 12px);left:16px;font-family:var(--f-display);font-weight:900;font-size:22px;letter-spacing:.06em;color:var(--sodium);text-shadow:0 1px 0 #000}
+#brand{top:calc(env(safe-area-inset-top,0px) + 12px);left:16px;font-family:var(--f-display);font-weight:400;font-size:26px;letter-spacing:.06em;color:var(--sodium);text-shadow:0 1px 0 #000}
 #brand small{display:block;font-family:var(--f-mono);font-weight:400;font-size:11px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
 #aboutBtn{top:calc(env(safe-area-inset-top,0px) + 12px);right:16px}
 #panel{left:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);max-width:min(360px,calc(100vw - 32px));background:rgba(14,11,10,.78);border:1px solid rgba(255,174,66,.35);padding:10px 12px;display:grid;gap:8px;backdrop-filter:blur(4px)}
-#where{font-family:var(--f-display);font-weight:700;font-size:26px;line-height:1;letter-spacing:.03em;font-variant-numeric:tabular-nums}
+#where{font-family:var(--f-display);font-weight:400;font-size:30px;line-height:1;letter-spacing:.03em;font-variant-numeric:tabular-nums}
 #where span{color:var(--sodium)}
 #mode{color:var(--muted);font-size:12px}
 .row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
@@ -36,22 +37,22 @@ input[type=range]{accent-color:var(--sodium);width:120px}
 #me b{position:absolute;left:4px;top:2px;font:600 10px var(--f-mono);color:var(--teal);text-transform:uppercase;text-shadow:0 1px 0 #000}
 #toast{top:calc(env(safe-area-inset-top,0px) + 64px);left:50%;transform:translateX(-50%);max-width:calc(100vw - 32px);background:var(--paint);color:#1a0610;font-weight:600;padding:8px 12px;text-align:center}
 #spray{left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 14px);background:rgba(14,11,10,.9);border:2px solid var(--paint);padding:10px 12px;display:grid;gap:8px;width:min(420px,calc(100vw - 32px))}
-#spray h2{margin:0;font:400 22px var(--f-spray);color:var(--paint)}
+#spray h2{margin:0;font:400 20px var(--f-chunk);color:var(--paint)}
 #spray p{margin:0;color:var(--muted);font-size:12px}
-#spray input[type=text]{font:400 18px "Permanent Marker",var(--f-mono);background:var(--soot);color:var(--chalk);border:1px solid rgba(239,232,220,.3);padding:6px 8px;min-width:0;flex:1 1 140px}
+#spray input[type=text]{font:400 20px "Sedgwick Ave Display",var(--f-mono);background:var(--soot);color:var(--chalk);border:1px solid rgba(239,232,220,.3);padding:6px 8px;min-width:0;flex:1 1 140px}
 .swatch{width:26px;height:26px;border:2px solid transparent;padding:0;cursor:pointer}
 .swatch[aria-pressed="true"]{border-color:var(--chalk)}
 #sprayMsg{min-height:1em}
 #about{top:0;right:0;bottom:0;width:min(420px,100vw);background:rgba(14,11,10,.96);border-left:1px solid rgba(255,174,66,.35);padding:calc(env(safe-area-inset-top,0px) + 16px) 20px 24px;overflow:auto}
-#about h2{font:900 30px var(--f-display);letter-spacing:.04em;color:var(--sodium);margin:0 0 8px;text-wrap:balance}
-#about h3{font:700 18px var(--f-display);letter-spacing:.06em;text-transform:uppercase;margin:18px 0 6px;color:var(--chalk)}
+#about h2{font:400 36px var(--f-display);letter-spacing:.04em;color:var(--sodium);margin:0 0 8px;text-wrap:balance}
+#about h3{font:400 22px var(--f-display);letter-spacing:.06em;text-transform:uppercase;margin:18px 0 6px;color:var(--chalk)}
 #about p,#about li{color:#d8cfc3;max-width:62ch}
 #about a{color:var(--teal)}
 #about ul{padding-left:18px;margin:0}
 #intro{position:fixed;inset:0;z-index:10;display:grid;place-items:center;padding:24px 16px;background:radial-gradient(ellipse at 50% 45%,rgba(40,24,12,.55),rgba(14,11,10,.94) 70%)}
 #intro .card{max-width:560px;display:grid;gap:14px}
-#intro h1{margin:0;font:400 clamp(44px,11vw,96px)/0.9 var(--f-spray);color:var(--paint);text-shadow:4px 4px 0 #000,-2px -2px 0 var(--sodium);text-wrap:balance}
-#intro .sub{font:700 clamp(18px,4vw,24px) var(--f-display);letter-spacing:.08em;text-transform:uppercase;color:var(--sodium)}
+#intro h1{margin:0;font:400 clamp(40px,10vw,88px)/0.95 var(--f-chunk);color:var(--paint);text-shadow:4px 4px 0 #000,-2px -2px 0 var(--sodium);text-wrap:balance}
+#intro .sub{font:400 clamp(22px,5vw,30px) var(--f-display);letter-spacing:.08em;text-transform:uppercase;color:var(--sodium)}
 #intro ol{margin:0;padding-left:20px;display:grid;gap:4px;color:#e2d9cc;font-size:14px}
 #intro .fine{color:var(--muted);font-size:12px}
 #intro .row button{font-size:13px;padding:11px 14px}
@@ -198,7 +199,7 @@ function piece(ctx, text, x, y, size, font, fill, outline, rot, r, pxm){
 }
 function scrawl(ctx, text, x, y, size, col, rot){
   ctx.save(); ctx.translate(x, y); ctx.rotate(rot);
-  ctx.font = `${size}px "Permanent Marker", cursive`; ctx.fillStyle = col; ctx.textBaseline = 'middle';
+  ctx.font = `${size}px "Sedgwick Ave Display", cursive`; ctx.fillStyle = col; ctx.textBaseline = 'middle';
   ctx.fillText(text, 0, 0); ctx.restore();
 }
 function paintWall(seed, w, h, pxm, opts = {}){
@@ -207,7 +208,7 @@ function paintWall(seed, w, h, pxm, opts = {}){
   for (let i = 0; i < 5 + r() * 6; i++) blob(ctx, r() * w, r() * h, (0.6 + r() * 1.6) * pxm, pick(r, PAL), .55 + r() * .4);
   if (r() < .5){ ctx.fillStyle = hexA('#d9d2c5', .9); const bw = (1 + r() * 3) * pxm; ctx.fillRect(r() * (w - bw), h * (.2 + r() * .3), bw, (1 + r()) * pxm); }
   const bigs = opts.bigs ?? (1 + Math.floor(r() * 2.2));
-  const fonts = ['"Rubik Spray Paint"', '"Rubik Wet Paint"', '"Sedgwick Ave Display"'];
+  const fonts = ['"Bungee"', '"Bungee"', '"Sedgwick Ave Display"'];
   for (let i = 0; i < bigs; i++){
     const size = (0.9 + r() * 0.9) * pxm;
     piece(ctx, pick(r, WORDS), w * (.15 + .7 * ((i + r() * .6) / Math.max(bigs, 1))), h * (.35 + r() * .35), size, pick(r, fonts), pick(r, PAL), pick(r, PAL), (r() - .5) * .25, r, pxm);
@@ -228,11 +229,11 @@ function historyPanel(date, title, body, seed, accent){
   ctx.fillStyle = '#e9e1d2';
   ctx.beginPath(); ctx.moveTo(30 + r() * 20, 40); ctx.lineTo(w - 40, 30 + r() * 20); ctx.lineTo(w - 30 - r() * 20, h - 40); ctx.lineTo(40, h - 30 - r() * 20); ctx.closePath(); ctx.fill();
   for (let i = 0; i < 40; i++) blob(ctx, r() * w, r() < .5 ? 40 : h - 40, 30 + r() * 40, '#26201c', .35);
-  ctx.fillStyle = accent; ctx.font = '900 92px "Big Shoulders Stencil Display", Impact, sans-serif'; ctx.textBaseline = 'top';
+  ctx.fillStyle = accent; ctx.font = '92px \"Bebas Neue\", Impact, sans-serif'; ctx.textBaseline = 'top';
   ctx.fillText(date, 80, 80);
-  ctx.fillStyle = '#141111'; ctx.font = '400 70px "Rubik Spray Paint", Impact, sans-serif';
+  ctx.fillStyle = '#141111'; ctx.font = '400 64px "Bungee", Impact, sans-serif';
   ctx.fillText(title, 80, 190);
-  ctx.font = '400 40px "Permanent Marker", cursive'; ctx.fillStyle = '#1b1715';
+  ctx.font = '400 38px "Century Gothic", "Didact Gothic", sans-serif'; ctx.fillStyle = '#1b1715';
   wrap(ctx, body, w - 170).forEach((ln, i) => ctx.fillText(ln, 84, 300 + i * 56));
   drips(ctx, 80, 80 + ctx.measureText(date).width, 176, accent, r, 5, 320);
   return c;
@@ -242,8 +243,8 @@ function bannerCanvas(){
   ctx.fillStyle = '#111'; ctx.fillRect(0, 0, w, h);
   const r = rng(7);
   for (let i = 0; i < 16; i++) blob(ctx, r() * w, r() * h, 80 + r() * 140, pick(r, PAL), .35);
-  piece(ctx, 'LEAKE STREET', w / 2, h * .44, 210, '"Rubik Spray Paint"', '#ff3d8b', '#ffd23f', -.02, r, 400);
-  ctx.font = '700 44px "Big Shoulders Stencil Display", Impact'; ctx.fillStyle = '#efe8dc'; ctx.textAlign = 'center';
+  piece(ctx, 'LEAKE STREET', w / 2, h * .44, 180, '"Bungee"', '#ff3d8b', '#ffd23f', -.02, r, 400);
+  ctx.font = '44px \"Bebas Neue\", Impact, sans-serif'; ctx.fillStyle = '#efe8dc'; ctx.textAlign = 'center';
   ctx.fillText('300 M OF LEGAL WALL  ·  UNDER WATERLOO  ·  SE1 7NN', w / 2, h - 44);
   return c;
 }
@@ -253,8 +254,8 @@ function endCanvas(big, small, sky){
   ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
   ctx.fillStyle = 'rgba(20,16,14,.85)'; ctx.fillRect(w * .18, h * .1, w * .64, h * .26);
   ctx.fillStyle = '#efe8dc'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.font = '900 96px "Big Shoulders Stencil Display", Impact'; ctx.fillText(big, w / 2, h * .2);
-  ctx.font = '400 30px "Permanent Marker", cursive'; ctx.fillText(small, w / 2, h * .31);
+  ctx.font = '96px \"Bebas Neue\", Impact, sans-serif'; ctx.fillText(big, w / 2, h * .2);
+  ctx.font = '400 32px "Sedgwick Ave Display", cursive'; ctx.fillText(small, w / 2, h * .31);
   return c;
 }
 function floorCanvas(){
@@ -269,7 +270,7 @@ function floorCanvas(){
 function floorDecal(){
   const w = 1024, h = 256, c = canvas(w, h), ctx = c.getContext('2d');
   ctx.clearRect(0, 0, w, h); ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.font = '400 78px "Rubik Spray Paint", Impact'; ctx.fillStyle = 'rgba(255,210,63,.92)';
+  ctx.font = '400 104px "Bebas Neue", Impact'; ctx.fillStyle = 'rgba(255,210,63,.92)';
   ctx.fillText('← LOOK LEFT   LOOK RIGHT →', w / 2, h / 2);
   return c;
 }
@@ -297,14 +298,14 @@ function photoCanvas(img, seed){
   [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([sx, sy]) => { ctx.save(); ctx.translate(sx * pw / 2, sy * ph / 2); ctx.rotate(sx * sy * .6); ctx.fillRect(-40, -12, 80, 24); ctx.restore(); });
   ctx.restore();
   ctx.fillStyle = '#efe8dc'; ctx.textAlign = 'center';
-  ctx.font = '900 64px "Big Shoulders Stencil Display", Impact'; ctx.fillText('SHOT ON SITE', w / 2, h * .9);
-  ctx.font = '400 30px "Permanent Marker", cursive'; ctx.fillText('wall art by the painters of Leake Street', w / 2, h * .955);
+  ctx.font = '64px \"Bebas Neue\", Impact, sans-serif'; ctx.fillText('SHOT ON SITE', w / 2, h * .9);
+  ctx.font = '400 32px "Sedgwick Ave Display", cursive'; ctx.fillText('wall art by the painters of Leake Street', w / 2, h * .955);
   return c;
 }
 
 /* ---------- visitor wall ---------- */
 const TAG_COLORS = ['#ff3d8b', '#18c3b5', '#ffd23f', '#9be34a', '#ff6b2b', '#efe8dc', '#7b3fe4', '#3fa2ff'];
-const TAG_FONTS = ['"Rubik Spray Paint"', '"Sedgwick Ave Display"', '"Permanent Marker"', '"Rubik Wet Paint"'];
+const TAG_FONTS = ['"Sedgwick Ave Display"', '"Bungee"', '"Bebas Neue"', '"Sedgwick Ave Display"'];
 let visitorTags = [], visitorCanvas = null, visitorTex = null, visitorShared = false;
 function drawVisitorWall(){
   const w = 1024, h = Math.round(1024 * 4.6 / 4);
@@ -313,10 +314,10 @@ function drawVisitorWall(){
   bricks(ctx, w, h, 256, '#b8b1a6');
   for (let i = 0; i < 10; i++) blob(ctx, r() * w, r() * h, 80 + r() * 160, '#8f887e', .25);
   ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.font = '900 70px "Big Shoulders Stencil Display", Impact'; ctx.fillStyle = '#1b1715';
+  ctx.font = '70px \"Bebas Neue\", Impact, sans-serif'; ctx.fillStyle = '#1b1715';
   ctx.fillText('OPEN WALL · ADD YOURS', w / 2, 70);
   if (!visitorTags.length){
-    ctx.font = '400 40px "Permanent Marker", cursive'; ctx.fillStyle = '#3a332d';
+    ctx.font = '400 40px "Sedgwick Ave Display", cursive'; ctx.fillStyle = '#3a332d';
     wrap(ctx, 'Nobody has sprayed here yet. Stand at this arch and use the Your turn panel to add the first tag.', w - 160).forEach((l, i) => ctx.fillText(l, w / 2, h / 2 - 40 + i * 54));
   }
   const list = visitorTags.slice().sort((a, b) => (a.t || 0) - (b.t || 0));
@@ -668,7 +669,7 @@ function frame(now){
 }
 
 (async () => {
-  try { await Promise.race([Promise.all(['Rubik Spray Paint', 'Rubik Wet Paint', 'Sedgwick Ave Display', 'Permanent Marker', 'Big Shoulders Stencil Display'].map(f => document.fonts.load(`64px "${f}"`))), new Promise(r => setTimeout(r, 3500))]); } catch (e){}
+  try { await Promise.race([Promise.all(['Bungee', 'Sedgwick Ave Display', 'Bebas Neue', 'Didact Gothic'].map(f => document.fonts.load(`64px "${f}"`))), new Promise(r => setTimeout(r, 3500))]); } catch (e){}
   await build();
   requestAnimationFrame(frame);
 })();
